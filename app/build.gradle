@@ -56,6 +56,19 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
+    // anko
+    implementation "org.jetbrains.anko:anko-commons:$rootProject.ankoVersion"
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitAdapterRxjava2Version"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitConverterGsonVersion"
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rxkotlin"
+
     // Instrumentation tests
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
