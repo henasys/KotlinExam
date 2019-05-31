@@ -1,7 +1,8 @@
-package com.henasys.kotlinexam
+package com.henasys.kotlinexam.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.henasys.kotlinexam.R
 
 class MainActivity : AppCompatActivity() {
 
