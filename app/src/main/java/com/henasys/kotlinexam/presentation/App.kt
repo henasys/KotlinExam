@@ -12,4 +12,6 @@ open class App : DaggerApplication() {
             .networkModule(NetworkModule.instance)
             .build()
     }
+
+    protected open fun isInUnitTests() = false
 }

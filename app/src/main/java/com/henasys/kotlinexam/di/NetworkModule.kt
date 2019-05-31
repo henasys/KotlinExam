@@ -19,8 +19,7 @@ open class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(loggingInterceptors: Set<@JvmSuppressWildcards
-    Interceptor>):
+    fun provideOkHttpClient(loggingInterceptors: Set<@JvmSuppressWildcards Interceptor>):
             OkHttpClient =
         OkHttpClient.Builder().apply {
             loggingInterceptors.forEach {
@@ -39,7 +38,8 @@ open class NetworkModule {
             .build()
     }
 
-    @Singleton @Provides
+    @Singleton
+    @Provides
     open fun provideUserApi(retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
     }
