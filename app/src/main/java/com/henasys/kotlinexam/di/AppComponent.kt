@@ -1,6 +1,7 @@
 package com.henasys.kotlinexam.di
 
 import android.app.Application
+import com.henasys.kotlinexam.di.activitymodule.MainActivityBuilder
 import com.henasys.kotlinexam.presentation.App
 import dagger.BindsInstance
 import dagger.Component
@@ -12,7 +13,8 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    NetworkModule::class
+    NetworkModule::class,
+    MainActivityBuilder::class
 ])
 interface AppComponent : AndroidInjector<App> {
     @Component.Builder
