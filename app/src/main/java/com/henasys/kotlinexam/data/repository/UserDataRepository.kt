@@ -18,6 +18,8 @@ class UserDataRepository @Inject constructor(
         = userDatabase.getAll()
 
     override fun login(email: String, password: String): Single<UserLogin> {
-        return api.login(email, password).subscribeOn(schedulerProvider.io())
+        return api.login(email, password)
+            .subscribeOn(schedulerProvider.io())
+            .doOnSuccess({userDatabase.save(it)})
     }
 }
