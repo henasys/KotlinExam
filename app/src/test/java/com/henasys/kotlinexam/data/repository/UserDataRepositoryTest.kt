@@ -1,25 +1,24 @@
 package com.henasys.kotlinexam.data.repository
 
-import com.henasys.kotlinexam.data.api.UserApi
-import com.henasys.kotlinexam.data.api.response.UserLogin
-import com.henasys.kotlinexam.di.DaggerAppComponentTest
-import com.henasys.kotlinexam.util.rx.SchedulerProvider
-import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.henasys.kotlinexam.di.DaggerTestAppComponent
+import io.reactivex.rxkotlin.subscribeBy
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import javax.inject.Inject
 
 class UserDataRepositoryTest {
+    @Rule
+    @JvmField
+    val rule = InstantTaskExecutorRule()
 
     @Inject lateinit var repository: UserRepository
 
     @Before
     fun setUp() {
-        DaggerAppComponentTest.builder().build().inject(this)
+        DaggerTestAppComponent.builder().build().inject(this)
     }
 
     @After
@@ -30,9 +29,15 @@ class UserDataRepositoryTest {
     fun login() {
         val email = "tester@test.org"
         val password = "password1"
+
+        println("email: $email")
+
         repository.login(email, password)
-            .observeOn(Schedulers.trampoline())
-            .doOnSuccess { t -> t.email = email }
+            .doOnSuccess { it.email = email }
+            .subscribeBy(
+                onSuccess = {println("onSuccess: $it")},
+                onError = {println("onError: $it")}
+            )
 
     }
 }

@@ -1,10 +1,8 @@
 package com.henasys.kotlinexam.presentation
 
-import com.henasys.kotlinexam.di.DaggerAppComponentTest
+import com.henasys.kotlinexam.di.DaggerTestAppComponent
 import org.junit.After
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Test
 import javax.inject.Inject
 
@@ -15,7 +13,7 @@ class MainViewModelTest {
 
     @Before
     fun setUp() {
-        DaggerAppComponentTest.builder().build().inject(this)
+        DaggerTestAppComponent.builder().build().inject(this)
     }
 
     @After

@@ -9,10 +9,10 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    AppModule::class,
+    TestAppModule::class,
     NetworkModule::class
 ])
-interface AppComponentTest {
+interface TestAppComponent {
 
     fun inject(test: MainViewModelTest)
     fun inject(test: UserDataRepositoryTest)

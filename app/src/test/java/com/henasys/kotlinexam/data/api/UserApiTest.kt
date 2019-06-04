@@ -1,7 +1,7 @@
 package com.henasys.kotlinexam.data.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.henasys.kotlinexam.di.DaggerAppComponentTest
+import com.henasys.kotlinexam.di.DaggerTestAppComponent
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import org.junit.Before
@@ -20,7 +20,7 @@ class UserApiTest {
 
     @Before
     fun setUp() {
-        DaggerAppComponentTest.builder().build().inject(this)
+        DaggerTestAppComponent.builder().build().inject(this)
     }
 
     @Test
