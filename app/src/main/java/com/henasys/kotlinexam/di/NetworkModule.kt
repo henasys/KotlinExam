@@ -41,7 +41,7 @@ open class NetworkModule {
             .client(okHttpClient)
             .baseUrl("https://reqres.in/")
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 

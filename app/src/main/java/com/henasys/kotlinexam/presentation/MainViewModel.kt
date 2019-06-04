@@ -27,4 +27,7 @@ class MainViewModel @Inject constructor(
         super.onCleared()
         compositeDisposable.clear()
     }
+
+    fun start() {
+    }
 }
