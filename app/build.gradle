@@ -109,4 +109,10 @@ dependencies {
 
     // Robolectric
     testImplementation 'org.robolectric:robolectric:4.3'
+    implementation 'androidx.room:room-runtime:2.0.0'
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation "android.arch.persistence.room:rxjava2:1.1.1"
+    kapt 'androidx.room:room-compiler:2.0.0'
 }

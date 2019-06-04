@@ -1,5 +1,5 @@
 package com.henasys.kotlinexam.data.api.response
 
 data class UserLogin (
-    var email: String, val token: String
+    var email: String, var token: String
 )
