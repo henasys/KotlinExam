@@ -47,6 +47,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycleVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.lifecycleVersion"
 
     // Utils
     api "com.jakewharton.timber:timber:$rootProject.timberVersion"
