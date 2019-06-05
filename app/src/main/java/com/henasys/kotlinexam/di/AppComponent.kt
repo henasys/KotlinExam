@@ -2,6 +2,7 @@ package com.henasys.kotlinexam.di
 
 import android.app.Application
 import com.henasys.kotlinexam.di.activitymodule.MainActivityBuilder
+import com.henasys.kotlinexam.di.activitymodule.UserActivityBuilder
 import com.henasys.kotlinexam.presentation.App
 import dagger.BindsInstance
 import dagger.Component
@@ -15,7 +16,8 @@ import javax.inject.Singleton
     AppModule::class,
     NetworkModule::class,
     DatabaseModule::class,
-    MainActivityBuilder::class
+    MainActivityBuilder::class,
+    UserActivityBuilder::class
 ])
 interface AppComponent : AndroidInjector<App> {
     @Component.Builder

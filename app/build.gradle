@@ -44,10 +44,13 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Architecture Components
+    implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycleVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.lifecycleVersion"
+
 
     // Utils
     api "com.jakewharton.timber:timber:$rootProject.timberVersion"

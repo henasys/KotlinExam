@@ -3,6 +3,7 @@ package com.henasys.kotlinexam.data.repository
 import com.henasys.kotlinexam.data.api.UserApi
 import com.henasys.kotlinexam.data.api.response.UserLogin
 import com.henasys.kotlinexam.data.db.UserDatabase
+import com.henasys.kotlinexam.data.db.entity.mapper.toUser
 import com.henasys.kotlinexam.data.db.entity.mapper.toUsers
 import com.henasys.kotlinexam.model.User
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
@@ -15,6 +16,10 @@ class UserDataRepository @Inject constructor(
     private val schedulerProvider: SchedulerProvider,
     private val userDatabase: UserDatabase
 ): UserRepository {
+    override val user: Single<User>
+        = userDatabase.getAll().flatMapIterable { it }
+        .firstOrError().toUser()
+
     override val users: Flowable<List<User>>
         = userDatabase.getAll().toUsers()
 

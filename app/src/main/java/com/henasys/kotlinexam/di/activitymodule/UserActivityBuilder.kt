@@ -1,13 +1,13 @@
 package com.henasys.kotlinexam.di.activitymodule
 
-import com.henasys.kotlinexam.presentation.MainActivity
+import com.henasys.kotlinexam.presentation.user.UserActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-interface MainActivityBuilder {
+interface UserActivityBuilder {
     @ContributesAndroidInjector(modules = [
-        MainActivityModule::class
+        UserActivityModule::class
     ])
-    fun contributeActivity(): MainActivity
+    fun contributeActivity(): UserActivity
 }
