@@ -1,8 +1,5 @@
 package com.henasys.kotlinexam.di
 
-import android.app.Application
-import android.content.Context
-import com.henasys.kotlinexam.TestApp
 import com.henasys.kotlinexam.data.api.UserApi
 import com.henasys.kotlinexam.data.db.UserDatabase
 import com.henasys.kotlinexam.data.db.entity.UserEntity
