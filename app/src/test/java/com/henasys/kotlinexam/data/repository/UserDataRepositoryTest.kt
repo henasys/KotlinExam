@@ -26,6 +26,15 @@ class UserDataRepositoryTest {
     }
 
     @Test
+    fun users() {
+        repository.users.subscribeBy(
+            onNext = {println("onSuccess: $it")},
+            onError = {println("onError: $it")},
+            onComplete = {println("onComplete")}
+        )
+    }
+
+    @Test
     fun login() {
         val email = "tester@test.org"
         val password = "password1"
