@@ -7,6 +7,7 @@ import com.henasys.kotlinexam.data.repository.UserRepository
 import com.henasys.kotlinexam.model.User
 import com.henasys.kotlinexam.presentation.Result
 import com.henasys.kotlinexam.presentation.common.mapper.toResult
+import com.henasys.kotlinexam.util.ext.toLiveData
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -20,7 +21,11 @@ class UserViewModel @Inject constructor(
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     val user: LiveData<Result<User>> by lazy {
-        toLiveData(repository.user.toResult(schedulerProvider))
+        repository.user.toResult(schedulerProvider).toLiveData()
+    }
+
+    val users: LiveData<Result<List<User>> by lazy {
+        repository.users.toResult(schedulerProvider).toLiveData()
     }
 
     override fun onCleared() {
@@ -31,7 +36,4 @@ class UserViewModel @Inject constructor(
     fun start() {
     }
 
-    fun toLiveData(source: Publisher<Result<User>>): LiveData<Result<User>> {
-        return LiveDataReactiveStreams.fromPublisher(source)
-    }
 }

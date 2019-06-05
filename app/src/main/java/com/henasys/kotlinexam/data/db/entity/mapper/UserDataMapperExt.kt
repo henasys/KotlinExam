@@ -13,6 +13,6 @@ fun Flowable<List<UserEntity>>.toUsers(): Flowable<List<User>> = map {
     it.toUsers()
 }
 
-fun Single<UserEntity>.toUser(): Single<User> = map {
+fun Flowable<UserEntity>.toUser(): Flowable<User> = map {
     User(it.id, it.email, it.token)
 }

@@ -32,8 +32,13 @@ import io.reactivex.Single
 }
 
 @CheckResult fun <T> Single<T>.toResult(schedulerProvider: SchedulerProvider):
-        Observable<Result<T>> {
-    return toObservable().toResult(schedulerProvider)
+        Single<Result<T>> {
+    return compose { item ->
+        item
+            .map { Result.success(it) }
+            .onErrorReturn { e -> Result.failure(e.message ?: "unknown", e) }
+            .observeOn(schedulerProvider.ui())
+    }
 }
 
 @CheckResult fun <T> Completable.toResult(schedulerProvider: SchedulerProvider):

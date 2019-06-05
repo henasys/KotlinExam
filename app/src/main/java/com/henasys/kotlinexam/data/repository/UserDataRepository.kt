@@ -16,7 +16,7 @@ class UserDataRepository @Inject constructor(
     private val schedulerProvider: SchedulerProvider,
     private val userDatabase: UserDatabase
 ): UserRepository {
-    override val user: Single<User>
+    override val user: Flowable<User>
         = userDatabase.getAll().flatMapIterable { it }
         .firstOrError().toUser()
 
