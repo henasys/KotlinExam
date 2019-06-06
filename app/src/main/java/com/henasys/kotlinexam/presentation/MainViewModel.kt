@@ -20,8 +20,9 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    private val mutableUser: MutableLiveData<User> = MutableLiveData()
-    val user: LiveData<User> = mutableUser
+    val user: LiveData<Result<User>> by lazy {
+        repository.user.toResult(schedulerProvider).toLiveData()
+    }
 
     val users: LiveData<Result<List<User>>> by lazy {
         repository.users.toResult(schedulerProvider).toLiveData()

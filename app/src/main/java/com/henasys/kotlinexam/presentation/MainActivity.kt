@@ -25,14 +25,25 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Timber.i("onCreate")
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
+
         checkLogin()
     }
 
     fun checkLogin() {
-        viewModel.users.observe(this, Observer {
-            Timber.i("checkLogin: %s", it)
+        viewModel.user.observe(this, Observer {result ->
+            when (result) {
+                is Result.Failure -> {
+                    Timber.i(result.e)
+                }
+
+                is Result.Success -> {
+                    Timber.i("Result.Success: %s", result.data)
+                }
+            }
+
         })
     }
 }
