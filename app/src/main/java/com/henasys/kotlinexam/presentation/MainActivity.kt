@@ -29,14 +29,23 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
-        checkLogin()
+        isUserLogin()
+        observeUsers()
     }
 
-    fun checkLogin() {
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart")
+        viewModel.start()
+    }
+
+    fun isUserLogin() {
         viewModel.isUserLogin.observe(this, Observer {
             Timber.i("isUserLogin: %s", it)
         })
+    }
 
+    fun observeUsers() {
         viewModel.users.observe(this, Observer { result ->
             when (result) {
                 is Result.InProgress -> {
@@ -51,6 +60,5 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.start()
     }
 }

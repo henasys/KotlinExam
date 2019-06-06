@@ -28,6 +28,10 @@ class MainViewModel @Inject constructor(
         repository.users.toResult(schedulerProvider).toLiveData()
     }
 
+    init {
+        checkUserLogin()
+    }
+
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
@@ -36,22 +40,40 @@ class MainViewModel @Inject constructor(
     fun checkUserLogin() {
         Timber.i("checkUserLogin")
         repository.user
-            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
                 onSuccess = {
-                    println("onSuccess: $it")
+                    Timber.i("onSuccess: $it")
                     mutableIsUserLogin.value = true
                 },
                 onError = {
-                    println("onError: $it")
+                    Timber.i("onError: $it")
                     mutableIsUserLogin.value = false
                 }
             )
             .addTo(compositeDisposable)
     }
 
+    fun login(email: String, password: String) {
+        repository.login(email, password)
+            .observeOn(schedulerProvider.ui())
+            .subscribeBy(
+                onSuccess = {
+                    Timber.i("onSuccess: $it")
+                },
+                onError = {
+                    Timber.i("onError: $it")
+                }
+            )
+            .addTo(compositeDisposable)
+    }
+
     fun start() {
-        checkUserLogin()
+//        checkUserLogin()
+
+        val email = "eve.holt@reqres.in"
+        val password = "pistol"
+
+//        login(email, password)
     }
 }
