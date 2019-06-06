@@ -24,7 +24,7 @@ class UserViewModel @Inject constructor(
         repository.user.toResult(schedulerProvider).toLiveData()
     }
 
-    val users: LiveData<Result<List<User>> by lazy {
+    val users: LiveData<Result<List<User>>> by lazy {
         repository.users.toResult(schedulerProvider).toLiveData()
     }
 
