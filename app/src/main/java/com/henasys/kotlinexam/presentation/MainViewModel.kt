@@ -12,6 +12,7 @@ import com.henasys.kotlinexam.util.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -20,9 +21,8 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    val user: LiveData<Result<User>> by lazy {
-        repository.user.toResult(schedulerProvider).toLiveData()
-    }
+    private val mutableIsUserLogin = MutableLiveData<Boolean>()
+    val isUserLogin: LiveData<Boolean> = mutableIsUserLogin
 
     val users: LiveData<Result<List<User>>> by lazy {
         repository.users.toResult(schedulerProvider).toLiveData()
@@ -33,6 +33,25 @@ class MainViewModel @Inject constructor(
         compositeDisposable.clear()
     }
 
+    fun checkUserLogin() {
+        Timber.i("checkUserLogin")
+        repository.user
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribeBy(
+                onSuccess = {
+                    println("onSuccess: $it")
+                    mutableIsUserLogin.value = true
+                },
+                onError = {
+                    println("onError: $it")
+                    mutableIsUserLogin.value = false
+                }
+            )
+            .addTo(compositeDisposable)
+    }
+
     fun start() {
+        checkUserLogin()
     }
 }

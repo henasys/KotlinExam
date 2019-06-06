@@ -20,10 +20,6 @@ class UserViewModel @Inject constructor(
 ) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    val user: LiveData<Result<User>> by lazy {
-        repository.user.toResult(schedulerProvider).toLiveData()
-    }
-
     val users: LiveData<Result<List<User>>> by lazy {
         repository.users.toResult(schedulerProvider).toLiveData()
     }

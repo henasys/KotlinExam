@@ -33,17 +33,24 @@ class MainActivity : BaseActivity() {
     }
 
     fun checkLogin() {
-        viewModel.user.observe(this, Observer {result ->
-            when (result) {
-                is Result.Failure -> {
-                    Timber.i(result.e)
-                }
+        viewModel.isUserLogin.observe(this, Observer {
+            Timber.i("isUserLogin: %s", it)
+        })
 
+        viewModel.users.observe(this, Observer { result ->
+            when (result) {
+                is Result.InProgress -> {
+                    Timber.i("Result.InProgress")
+                }
                 is Result.Success -> {
-                    Timber.i("Result.Success: %s", result.data)
+                    Timber.i("Result.Success: ${result.data}")
+                }
+                is Result.Failure -> {
+                    Timber.i("Result.Failure: ${result.e}")
                 }
             }
-
         })
+
+        viewModel.start()
     }
 }
