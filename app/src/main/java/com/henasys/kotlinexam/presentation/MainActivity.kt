@@ -31,6 +31,7 @@ class MainActivity : BaseActivity() {
 
         isUserLogin()
         observeUsers()
+        observeUser()
     }
 
     override fun onStart() {
@@ -59,6 +60,22 @@ class MainActivity : BaseActivity() {
                 }
             }
         })
+    }
 
+    fun observeUser() {
+        viewModel.user.observe(this, Observer { result ->
+            Timber.i("%s", result)
+            when (result) {
+                is Result.InProgress -> {
+                    Timber.i("Result.InProgress")
+                }
+                is Result.Success -> {
+                    Timber.i("Result.Success: ${result.data}")
+                }
+                is Result.Failure -> {
+                    Timber.i("Result.Failure: ${result.e}")
+                }
+            }
+        })
     }
 }

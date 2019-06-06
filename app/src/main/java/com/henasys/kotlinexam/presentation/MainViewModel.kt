@@ -24,6 +24,9 @@ class MainViewModel @Inject constructor(
     private val mutableIsUserLogin = MutableLiveData<Boolean>()
     val isUserLogin: LiveData<Boolean> = mutableIsUserLogin
 
+    private val mutableUser = MutableLiveData<Result<User>>()
+    val user: LiveData<Result<User>> = mutableUser
+
     val users: LiveData<Result<List<User>>> by lazy {
         repository.users.toResult(schedulerProvider).toLiveData()
     }
@@ -40,15 +43,17 @@ class MainViewModel @Inject constructor(
     fun checkUserLogin() {
         Timber.i("checkUserLogin")
         repository.user
-            .observeOn(schedulerProvider.ui())
+            .toResult(schedulerProvider)
             .subscribeBy(
                 onSuccess = {
                     Timber.i("onSuccess: $it")
                     mutableIsUserLogin.value = true
+                    mutableUser.value = it
                 },
                 onError = {
                     Timber.i("onError: $it")
                     mutableIsUserLogin.value = false
+                    mutableUser.value = Result.failure(it.message ?: "unknown", it)
                 }
             )
             .addTo(compositeDisposable)
