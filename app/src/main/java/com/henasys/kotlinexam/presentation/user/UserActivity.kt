@@ -31,8 +31,8 @@ class UserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-        supportActionBar.let { title = "Login" }
-
+        supportActionBar.let { title = getString(R.string.activity_title_login) }
+        navigationController.navigateToLogin()
     }
 
     companion object {
