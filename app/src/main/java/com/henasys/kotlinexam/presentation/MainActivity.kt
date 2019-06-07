@@ -50,6 +50,8 @@ class MainActivity : BaseActivity() {
             Timber.i("%s", it)
             if (it == null) {
                 navigationController.navigateToUserActivity()
+            } else {
+                binding.user.text = it.email
             }
         })
     }

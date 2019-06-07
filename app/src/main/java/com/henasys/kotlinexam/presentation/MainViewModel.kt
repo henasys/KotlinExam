@@ -54,25 +54,6 @@ class MainViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    fun login(email: String, password: String) {
-        repository.login(email, password)
-            .observeOn(schedulerProvider.ui())
-            .subscribeBy(
-                onSuccess = {
-                    Timber.i("onSuccess: $it")
-                },
-                onError = {
-                    Timber.i("onError: $it")
-                }
-            )
-            .addTo(compositeDisposable)
-    }
-
     fun start() {
-
-        val email = "eve.holt@reqres.in"
-        val password = "pistol"
-
-//        login(email, password)
     }
 }
