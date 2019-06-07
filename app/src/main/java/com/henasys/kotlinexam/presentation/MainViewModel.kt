@@ -9,10 +9,14 @@ import com.henasys.kotlinexam.presentation.common.mapper.toResult
 import com.henasys.kotlinexam.util.defaultErrorHandler
 import com.henasys.kotlinexam.util.ext.toLiveData
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
+import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -21,18 +25,11 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    private val mutableIsUserLogin = MutableLiveData<Boolean>()
-    val isUserLogin: LiveData<Boolean> = mutableIsUserLogin
-
-    private val mutableUser = MutableLiveData<Result<User>>()
-    val user: LiveData<Result<User>> = mutableUser
-
-    val users: LiveData<Result<List<User>>> by lazy {
-        repository.users.toResult(schedulerProvider).toLiveData()
-    }
+    private val mutableUser = MutableLiveData<User>()
+    val user: LiveData<User> = mutableUser
 
     init {
-        checkUserLogin()
+        observeUser()
     }
 
     override fun onCleared() {
@@ -40,20 +37,18 @@ class MainViewModel @Inject constructor(
         compositeDisposable.clear()
     }
 
-    fun checkUserLogin() {
-        Timber.i("checkUserLogin")
+    fun observeUser() {
+        Timber.i("observeUser")
         repository.user
-            .toResult(schedulerProvider)
+            .observeOn(schedulerProvider.ui())
             .subscribeBy(
                 onSuccess = {
                     Timber.i("onSuccess: $it")
-                    mutableIsUserLogin.value = true
                     mutableUser.value = it
                 },
                 onError = {
                     Timber.i("onError: $it")
-                    mutableIsUserLogin.value = false
-                    mutableUser.value = Result.failure(it.message ?: "unknown", it)
+                    mutableUser.value = null
                 }
             )
             .addTo(compositeDisposable)
@@ -74,7 +69,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun start() {
-//        checkUserLogin()
 
         val email = "eve.holt@reqres.in"
         val password = "pistol"

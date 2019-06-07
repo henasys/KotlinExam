@@ -17,8 +17,10 @@ class UserDataRepository @Inject constructor(
     private val userDatabase: UserDatabase
 ): UserRepository {
     override val user: Single<User>
-        = userDatabase.getAll().flatMapIterable { it }
-        .firstOrError().toUser()
+        = userDatabase.getAll()
+        .flatMap { Flowable.just(it.first())}
+        .singleOrError()
+        .toUser()
 
     override val users: Flowable<List<User>>
         = userDatabase.getAll().toUsers()

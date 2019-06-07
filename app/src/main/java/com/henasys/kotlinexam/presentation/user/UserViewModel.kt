@@ -20,9 +20,9 @@ class UserViewModel @Inject constructor(
 ) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    val users: LiveData<Result<List<User>>> by lazy {
-        repository.users.toResult(schedulerProvider).toLiveData()
-    }
+//    val users: LiveData<Result<List<User>>> by lazy {
+//        repository.users.toResult(schedulerProvider).toLiveData()
+//    }
 
     override fun onCleared() {
         super.onCleared()

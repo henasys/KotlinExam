@@ -10,6 +10,7 @@ import io.reactivex.Flowable
 import io.reactivex.rxkotlin.subscribeBy
 import org.junit.Rule
 import org.junit.Test
+import java.io.IOException
 
 class RxTest {
     @Rule
@@ -23,17 +24,25 @@ class RxTest {
             UserEntity(2, "t2@test.org", "token")
         )
         val source: Flowable<List<UserEntity>> = Flowable.just(userEntities)
-        source.flatMapIterable {it}
-            .firstOrError()
-            .subscribeBy {
-                println("item: $it")
+        source
+            .flatMap {list ->
+                Flowable.just(list.first())
             }
+            .singleOrError()
+            .subscribeBy(
+                onSuccess = {
+                    println("onSuccess: $it")},
+                onError = {println("onError: $it")}
+            )
     }
 
     @Test
     fun rx_empty_list() {
         val source: Flowable<List<UserEntity>> = Flowable.just(emptyList())
-        source.flatMapIterable {it}
+        source
+            .flatMap {list ->
+                Flowable.just(list.first())
+            }
             .firstOrError()
             .subscribeBy(
                 onSuccess = {println("onSuccess: $it")},
@@ -44,19 +53,16 @@ class RxTest {
     @Test
     fun rx_userEntity_list_to_user_result_empty() {
         val source: Flowable<List<UserEntity>> = Flowable.just(emptyList())
-        source.flatMapIterable {it}
+        source
+            .flatMap {list ->
+                Flowable.just(list.first())
+            }
             .firstOrError()
-            .toFlowable()
             .toUser()
             .toResult(TestSchedulerProvider())
             .subscribeBy(
-                onNext = {
-                    println("onNext: $it")},
-                onError = {
-                    println("onError: $it")},
-                onComplete = {
-                    println("onComplete:")
-                }
+                onSuccess = {println("onSuccess: $it")},
+                onError = {println("onError: $it")}
             )
     }
 
@@ -66,19 +72,16 @@ class RxTest {
             UserEntity(1, "t1@test.org", "token")
         )
         val source: Flowable<List<UserEntity>> = Flowable.just(userEntities)
-        source.flatMapIterable {it}
+        source
+            .flatMap {list ->
+                Flowable.just(list.first())
+            }
             .firstOrError()
-            .toFlowable()
             .toUser()
             .toResult(TestSchedulerProvider())
             .subscribeBy(
-                onNext = {
-                    println("onNext: $it")},
-                onError = {
-                    println("onError: $it")},
-                onComplete = {
-                    println("onComplete:")
-                }
+                onSuccess = {println("onSuccess: $it")},
+                onError = {println("onError: $it")}
             )
     }
 

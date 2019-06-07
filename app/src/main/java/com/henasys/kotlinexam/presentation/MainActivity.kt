@@ -1,5 +1,7 @@
 package com.henasys.kotlinexam.presentation
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -7,11 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.databinding.ActivityMainBinding
 import com.henasys.kotlinexam.di.ViewModelFactory
-import com.henasys.kotlinexam.presentation.common.BaseActivity
+import com.henasys.kotlinexam.presentation.common.activity.BaseActivity
 import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
+
+    @Inject lateinit var navigationController: NavigationController
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -20,17 +24,18 @@ class MainActivity : BaseActivity() {
         ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
-    private val binding: ActivityMainBinding by lazy {
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+    private val binding by lazy {
+        DataBindingUtil.setContentView<ActivityMainBinding>(
+            this, R.layout.activity_main)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.i("onCreate")
         super.onCreate(savedInstanceState)
+        setSupportActionBar(binding.toolbar)
+
         binding.viewModel = viewModel
 
-        isUserLogin()
-        observeUsers()
         observeUser()
     }
 
@@ -40,42 +45,23 @@ class MainActivity : BaseActivity() {
         viewModel.start()
     }
 
-    fun isUserLogin() {
-        viewModel.isUserLogin.observe(this, Observer {
-            Timber.i("isUserLogin: %s", it)
-        })
-    }
-
-    fun observeUsers() {
-        viewModel.users.observe(this, Observer { result ->
-            when (result) {
-                is Result.InProgress -> {
-                    Timber.i("Result.InProgress")
-                }
-                is Result.Success -> {
-                    Timber.i("Result.Success: ${result.data}")
-                }
-                is Result.Failure -> {
-                    Timber.i("Result.Failure: ${result.e}")
-                }
-            }
-        })
-    }
-
     fun observeUser() {
-        viewModel.user.observe(this, Observer { result ->
-            Timber.i("%s", result)
-            when (result) {
-                is Result.InProgress -> {
-                    Timber.i("Result.InProgress")
-                }
-                is Result.Success -> {
-                    Timber.i("Result.Success: ${result.data}")
-                }
-                is Result.Failure -> {
-                    Timber.i("Result.Failure: ${result.e}")
-                }
+        viewModel.user.observe(this, Observer {
+            Timber.i("%s", it)
+            if (it == null) {
+                navigationController.navigateToUserActivity()
             }
         })
+    }
+
+    companion object {
+        fun createIntent(context: Context): Intent = Intent(context, MainActivity::class.java)
+
+        fun start(context: Context) {
+            createIntent(context).let {
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(it)
+            }
+        }
     }
 }

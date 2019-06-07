@@ -1,4 +1,4 @@
-package com.henasys.kotlinexam.presentation.common
+package com.henasys.kotlinexam.presentation.common.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
