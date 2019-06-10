@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.henasys.kotlinexam.di.ViewModelKey
 import com.henasys.kotlinexam.presentation.MainActivity
-import com.henasys.kotlinexam.presentation.MainViewModel
+import com.henasys.kotlinexam.presentation.user.UserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -15,8 +15,8 @@ interface MainActivityModule {
     fun providesAppCompatActivity(mainActivity: MainActivity): AppCompatActivity
 
     @Binds @IntoMap
-    @ViewModelKey(MainViewModel::class)
+    @ViewModelKey(UserViewModel::class)
     fun bindViewModel(
-        viewModel: MainViewModel
+        viewModel: UserViewModel
     ): ViewModel
 }

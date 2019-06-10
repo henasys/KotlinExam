@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.henasys.kotlinexam.databinding.FragmentLoginBinding
 import com.henasys.kotlinexam.presentation.NavigationController
+import com.henasys.kotlinexam.presentation.Result
 import com.henasys.kotlinexam.util.ProgressTimeLatch
 import com.henasys.kotlinexam.util.ext.observe
 import dagger.android.support.DaggerFragment
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginFragment : DaggerFragment() {
@@ -33,6 +36,7 @@ class LoginFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeUser()
         setupLoginButton()
         setupProgress()
 
@@ -45,6 +49,18 @@ class LoginFragment : DaggerFragment() {
 
         binding.email.setText(email)
         binding.password.setText(password)
+    }
+
+    private fun observeUser() {
+        Timber.i("observeUser")
+        viewModel.user.observe(this, Observer {
+            Timber.i("%s", it)
+            when (it) {
+                is Result.Success -> {
+                    navigationController.navigateToMainActivity()
+                }
+            }
+        })
     }
 
     private fun setupProgress() {

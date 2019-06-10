@@ -10,6 +10,7 @@ import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.databinding.ActivityMainBinding
 import com.henasys.kotlinexam.di.ViewModelFactory
 import com.henasys.kotlinexam.presentation.common.activity.BaseActivity
+import com.henasys.kotlinexam.presentation.user.UserViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,8 +21,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+    private val viewModel: UserViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(UserViewModel::class.java)
     }
 
     private val binding by lazy {
@@ -37,6 +38,7 @@ class MainActivity : BaseActivity() {
         binding.viewModel = viewModel
 
         observeUser()
+        setupLogoutButton()
     }
 
     override fun onStart() {
@@ -45,16 +47,27 @@ class MainActivity : BaseActivity() {
         viewModel.start()
     }
 
-    fun observeUser() {
-        binding.user.text = "default user"
+    private fun observeUser() {
         viewModel.user.observe(this, Observer {
             Timber.i("%s", it)
-            if (it == null) {
-                navigationController.navigateToUserActivity()
-            } else {
-                binding.user.text = it.email
+            when (it) {
+                is Result.Success -> {
+                    binding.userEmail.text = it.data.email
+                }
+
+                is Result.Failure -> {
+                    navigationController.navigateToUserActivity()
+                }
             }
         })
+    }
+
+    private fun setupLogoutButton() {
+        binding.logoutButton.apply {
+            setOnClickListener {
+                viewModel.logout()
+            }
+        }
     }
 
     companion object {

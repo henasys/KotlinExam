@@ -7,6 +7,7 @@ import com.henasys.kotlinexam.data.db.entity.mapper.toUser
 import com.henasys.kotlinexam.data.db.entity.mapper.toUsers
 import com.henasys.kotlinexam.model.User
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import org.jetbrains.anko.doAsync
@@ -34,10 +35,11 @@ class UserDataRepository @Inject constructor(
             }
     }
 
-    override fun deleteAll() {
-        doAsync {
-            userDatabase.deleteAll()
-        }
+    override fun logout(): Completable {
+        return Completable.fromAction {
+                userDatabase.deleteAll()
+            }
+            .subscribeOn(schedulerProvider.io())
     }
 
 }
