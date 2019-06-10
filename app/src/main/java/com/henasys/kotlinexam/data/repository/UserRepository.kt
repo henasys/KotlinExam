@@ -6,7 +6,8 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface UserRepository {
-    val user: Single<User>
+    val user: Flowable<User>
     val users: Flowable<List<User>>
     fun login(email: String, password: String): Single<UserLogin>
+    fun deleteAll()
 }

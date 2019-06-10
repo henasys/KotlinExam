@@ -9,4 +9,5 @@ import io.reactivex.Single
 interface UserDatabase {
     @CheckResult fun getAll(): Flowable<List<UserEntity>>
     fun save(response: UserLogin)
+    fun deleteAll()
 }

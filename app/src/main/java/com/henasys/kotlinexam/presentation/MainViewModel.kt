@@ -30,6 +30,7 @@ class MainViewModel @Inject constructor(
 
     init {
         observeUser()
+        observeUsers()
     }
 
     override fun onCleared() {
@@ -42,8 +43,11 @@ class MainViewModel @Inject constructor(
         repository.user
             .observeOn(schedulerProvider.ui())
             .subscribeBy(
-                onSuccess = {
-                    Timber.i("onSuccess: $it")
+                onComplete = {
+                    Timber.i("onComplete")
+                },
+                onNext = {
+                    Timber.i("onNext: $it")
                     mutableUser.value = it
                 },
                 onError = {
@@ -54,6 +58,25 @@ class MainViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
+    fun observeUsers() {
+        Timber.i("observeUsers")
+        repository.users
+            .observeOn(schedulerProvider.ui())
+            .subscribeBy(
+                onComplete = {
+                    Timber.i("onComplete")
+                },
+                onNext = {
+                    Timber.i("onNext: $it")
+                },
+                onError = {
+                    Timber.i("onError: $it")
+                }
+            )
+            .addTo(compositeDisposable)
+    }
+
     fun start() {
+        repository.deleteAll()
     }
 }

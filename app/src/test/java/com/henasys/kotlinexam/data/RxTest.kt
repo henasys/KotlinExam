@@ -28,6 +28,8 @@ class RxTest {
             .flatMap {list ->
                 Flowable.just(list.first())
             }
+            .subscribeOn(TestSchedulerProvider().io())
+            .observeOn(TestSchedulerProvider().ui())
             .singleOrError()
             .subscribeBy(
                 onSuccess = {
@@ -43,7 +45,7 @@ class RxTest {
             .flatMap {list ->
                 Flowable.just(list.first())
             }
-            .firstOrError()
+            .singleOrError()
             .subscribeBy(
                 onSuccess = {println("onSuccess: $it")},
                 onError = {println("onError: $it")}
@@ -57,7 +59,7 @@ class RxTest {
             .flatMap {list ->
                 Flowable.just(list.first())
             }
-            .firstOrError()
+            .singleOrError()
             .toUser()
             .toResult(TestSchedulerProvider())
             .subscribeBy(
@@ -76,7 +78,7 @@ class RxTest {
             .flatMap {list ->
                 Flowable.just(list.first())
             }
-            .firstOrError()
+            .singleOrError()
             .toUser()
             .toResult(TestSchedulerProvider())
             .subscribeBy(

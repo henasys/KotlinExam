@@ -42,8 +42,8 @@ class UserViewModel @Inject constructor(
             .observeOn(schedulerProvider.ui())
             .toResult(schedulerProvider)
             .subscribeBy(
-                onSuccess = {
-                    Timber.i("onSuccess: $it")
+                onNext = {
+                    Timber.i("onNext: $it")
                     mutableUser.value = it
                 },
                 onError = {

@@ -16,10 +16,9 @@ class UserDataRepository @Inject constructor(
     private val schedulerProvider: SchedulerProvider,
     private val userDatabase: UserDatabase
 ): UserRepository {
-    override val user: Single<User>
+    override val user: Flowable<User>
         = userDatabase.getAll()
         .flatMap { Flowable.just(it.first())}
-        .singleOrError()
         .toUser()
 
     override val users: Flowable<List<User>>
@@ -33,4 +32,9 @@ class UserDataRepository @Inject constructor(
                 userDatabase.save(it)
             }
     }
+
+    override fun deleteAll() {
+        userDatabase.deleteAll()
+    }
+
 }

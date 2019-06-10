@@ -46,6 +46,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun observeUser() {
+        binding.user.text = "default user"
         viewModel.user.observe(this, Observer {
             Timber.i("%s", it)
             if (it == null) {
