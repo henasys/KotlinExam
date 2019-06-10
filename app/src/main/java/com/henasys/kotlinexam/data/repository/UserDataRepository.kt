@@ -9,6 +9,7 @@ import com.henasys.kotlinexam.model.User
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
 import io.reactivex.Flowable
 import io.reactivex.Single
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class UserDataRepository @Inject constructor(
@@ -34,7 +35,9 @@ class UserDataRepository @Inject constructor(
     }
 
     override fun deleteAll() {
-        userDatabase.deleteAll()
+        doAsync {
+            userDatabase.deleteAll()
+        }
     }
 
 }

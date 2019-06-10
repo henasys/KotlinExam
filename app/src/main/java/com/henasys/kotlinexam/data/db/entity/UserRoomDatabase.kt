@@ -25,6 +25,6 @@ class UserRoomDatabase @Inject constructor(
     }
 
     override fun deleteAll() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        userDao.deleteAll()
     }
 }
