@@ -10,6 +10,8 @@ import com.henasys.kotlinexam.databinding.ActivityUserBinding
 import com.henasys.kotlinexam.di.ViewModelFactory
 import com.henasys.kotlinexam.presentation.NavigationController
 import com.henasys.kotlinexam.presentation.common.activity.BaseActivity
+import com.henasys.kotlinexam.util.ext.observe
+import timber.log.Timber
 import javax.inject.Inject
 
 class UserActivity : BaseActivity() {
@@ -32,7 +34,19 @@ class UserActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
         supportActionBar.let { title = getString(R.string.activity_title_login) }
+
+        observeViewModel()
+
         navigationController.navigateToLogin()
+    }
+
+    private fun observeViewModel() {
+        viewModel.navigateToLoginDone.observe(this) {
+            it?.getContentIfNotHandled().let {
+                Timber.i("navigateToLoginDone")
+                navigationController.navigateToMainActivity()
+            }
+        }
     }
 
     companion object {

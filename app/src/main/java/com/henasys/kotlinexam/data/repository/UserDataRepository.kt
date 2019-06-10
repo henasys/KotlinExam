@@ -6,11 +6,11 @@ import com.henasys.kotlinexam.data.db.UserDatabase
 import com.henasys.kotlinexam.data.db.entity.mapper.toUser
 import com.henasys.kotlinexam.data.db.entity.mapper.toUsers
 import com.henasys.kotlinexam.model.User
+import com.henasys.kotlinexam.presentation.common.pref.Prefs
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class UserDataRepository @Inject constructor(
@@ -30,6 +30,8 @@ class UserDataRepository @Inject constructor(
         return api.login(email, password)
             .subscribeOn(schedulerProvider.io())
             .doOnSuccess {
+                Prefs.login(email, it.token)
+
                 it.email = email
                 userDatabase.save(it)
             }
@@ -37,6 +39,7 @@ class UserDataRepository @Inject constructor(
 
     override fun logout(): Completable {
         return Completable.fromAction {
+                Prefs.logout()
                 userDatabase.deleteAll()
             }
             .subscribeOn(schedulerProvider.io())

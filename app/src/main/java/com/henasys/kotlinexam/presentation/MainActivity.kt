@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.databinding.ActivityMainBinding
 import com.henasys.kotlinexam.di.ViewModelFactory
 import com.henasys.kotlinexam.presentation.common.activity.BaseActivity
-import com.henasys.kotlinexam.presentation.user.UserViewModel
+import com.henasys.kotlinexam.presentation.common.pref.Prefs
+import com.henasys.kotlinexam.util.ext.observe
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,8 +21,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: UserViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(UserViewModel::class.java)
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
     private val binding by lazy {
@@ -35,9 +35,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
 
-        binding.viewModel = viewModel
-
-        observeUser()
+        observeViewModel()
         setupLogoutButton()
     }
 
@@ -45,21 +43,26 @@ class MainActivity : BaseActivity() {
         super.onStart()
         Timber.i("onStart")
         viewModel.start()
+
+        if (Prefs.isNotLogined()) {
+            navigationController.navigateToUserActivity()
+        } else {
+            binding.userEmail.text = Prefs.userEmail
+        }
     }
 
-    private fun observeUser() {
-        viewModel.user.observe(this, Observer {
-            Timber.i("%s", it)
-            when (it) {
-                is Result.Success -> {
-                    binding.userEmail.text = it.data.email
-                }
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume")
+    }
 
-                is Result.Failure -> {
-                    navigationController.navigateToUserActivity()
-                }
+    private fun observeViewModel() {
+        viewModel.navigateToLogoutDone.observe(this) {
+            it?.getContentIfNotHandled().let {
+                Timber.i("navigateToLogoutDone")
+                navigationController.navigateToMainActivity()
             }
-        })
+        }
     }
 
     private fun setupLogoutButton() {

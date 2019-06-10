@@ -1,5 +1,6 @@
 package com.henasys.kotlinexam.presentation
 
+import com.chibatching.kotpref.Kotpref
 import com.henasys.kotlinexam.BuildConfig
 import com.henasys.kotlinexam.di.DaggerAppComponent
 import com.henasys.kotlinexam.di.DatabaseModule
@@ -15,9 +16,18 @@ open class App : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
 
+        setupTimber()
+        setupKotpref()
+    }
+
+    private fun setupTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
+    }
+
+    private fun setupKotpref() {
+        Kotpref.init(this.applicationContext)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

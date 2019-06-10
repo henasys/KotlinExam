@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.henasys.kotlinexam.data.repository.UserRepository
-import com.henasys.kotlinexam.model.User
-import com.henasys.kotlinexam.presentation.Result
+import com.henasys.kotlinexam.presentation.Event
 import com.henasys.kotlinexam.presentation.common.mapper.toResult
-import com.henasys.kotlinexam.util.ext.map
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
 import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
@@ -22,46 +20,30 @@ class UserViewModel @Inject constructor(
 ) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    private val mutableUser = MutableLiveData<Result<User>>()
-    val user: LiveData<Result<User>> = mutableUser
-
-    val isLoading: LiveData<Boolean> by lazy {
-        user.map {it.inProgress}
-    }
+    private val mutableNavigateToLoginDone = MutableLiveData<Event<Any>>()
+    val navigateToLoginDone: LiveData<Event<Any>>
+        get() = mutableNavigateToLoginDone
 
     init {
-        observeUser()
-        observeUsers()
-    }
-
-    private fun observeUser() {
+//        observeUsers()
     }
 
     private fun observeUsers() {
         repository.users
-            .subscribeOn(schedulerProvider.io())
-            .doOnNext {
-                Timber.i("doOnNext1: $it")
-            }
             .flatMap { Flowable.just(it.first()) }
-            .doOnNext {
-                Timber.i("doOnNext2: $it")
-            }
+            .subscribeOn(schedulerProvider.io())
             .toResult(schedulerProvider)
-            .doOnNext {
-                Timber.i("doOnNext3: $it")
-            }
             .subscribeBy(
                 onComplete = {
                     Timber.i("onComplete")
                 },
                 onNext = {
                     Timber.i("onNext: $it")
-                    mutableUser.value = it
+//                    mutableUser.value = it
                 },
                 onError = {
                     Timber.i("onError: $it")
-                    mutableUser.value = Result.failure(it.message ?: "unknown", it)
+//                    mutableUser.value = Result.failure(it.message ?: "unknown", it)
                 }
             )
             .addTo(compositeDisposable)
@@ -73,20 +55,7 @@ class UserViewModel @Inject constructor(
             .subscribeBy(
                 onSuccess = {
                     Timber.i("onSuccess: $it")
-                },
-                onError = {
-                    Timber.i("onError: $it")
-                }
-            )
-            .addTo(compositeDisposable)
-    }
-
-    fun logout() {
-        repository.logout()
-            .observeOn(schedulerProvider.ui())
-            .subscribeBy(
-                onComplete = {
-                    Timber.i("onComplete")
+                    mutableNavigateToLoginDone.value = Event(Any())
                 },
                 onError = {
                     Timber.i("onError: $it")
