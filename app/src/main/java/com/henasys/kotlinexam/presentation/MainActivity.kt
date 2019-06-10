@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
 
     private fun observeViewModel() {
         viewModel.navigateToLogoutDone.observe(this) {
-            it?.getContentIfNotHandled().let {
+            it?.getContentIfNotHandled()?.let {
                 Timber.i("navigateToLogoutDone")
                 navigationController.navigateToMainActivity()
             }

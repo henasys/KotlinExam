@@ -42,7 +42,7 @@ class UserActivity : BaseActivity() {
 
     private fun observeViewModel() {
         viewModel.navigateToLoginDone.observe(this) {
-            it?.getContentIfNotHandled().let {
+            it?.getContentIfNotHandled()?.let {
                 Timber.i("navigateToLoginDone")
                 navigationController.navigateToMainActivity()
             }
