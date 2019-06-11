@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.henasys.kotlinexam.databinding.FragmentLoginBinding
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class LoginFragment : DaggerFragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: UserViewModel by lazy {
-        ViewModelProviders.of(activity!!, viewModelFactory).get(UserViewModel::class.java)
+        ViewModelProviders.of(activity as FragmentActivity, viewModelFactory).get(UserViewModel::class.java)
     }
 
     @Inject
