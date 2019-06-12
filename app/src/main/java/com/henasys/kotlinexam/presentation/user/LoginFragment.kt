@@ -12,7 +12,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.databinding.FragmentLoginBinding
 import com.henasys.kotlinexam.presentation.NavigationController
+import com.henasys.kotlinexam.util.ext.observe
 import dagger.android.support.DaggerFragment
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginFragment : DaggerFragment() {
@@ -36,12 +38,21 @@ class LoginFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.title = getString(R.string.activity_title_login)
+
         observeViewModel()
-        setupOnEditorActionListener()
         setupNavigationLink()
+        setupOnEditorActionListener()
     }
 
     private fun observeViewModel() {
+        viewModel.navigateToLoginDone.observe(this) {
+            it?.getContentIfNotHandled()?.let {
+                Timber.i("navigateToLoginDone")
+                navigationController.navigateToMainActivity()
+            }
+        }
+
         viewModel.emailError.observe(this, Observer {
             binding.emailWrapper.error =
                 if (it) getString(R.string.invalid_email)

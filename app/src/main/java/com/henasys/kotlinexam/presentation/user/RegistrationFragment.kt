@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.databinding.FragmentRegistrationBinding
 import com.henasys.kotlinexam.presentation.NavigationController
 import dagger.android.support.DaggerFragment
@@ -35,6 +36,8 @@ class RegistrationFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = getString(R.string.activity_title_registration)
 
         observeViewModel()
         setupNavigationLink()

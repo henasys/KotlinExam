@@ -33,7 +33,6 @@ class UserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
-        supportActionBar.let { title = getString(R.string.activity_title_login) }
 
         observeViewModel()
 
@@ -41,12 +40,6 @@ class UserActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.navigateToLoginDone.observe(this) {
-            it?.getContentIfNotHandled()?.let {
-                Timber.i("navigateToLoginDone")
-                navigationController.navigateToMainActivity()
-            }
-        }
     }
 
     companion object {
