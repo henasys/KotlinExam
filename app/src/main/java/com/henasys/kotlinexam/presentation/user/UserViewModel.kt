@@ -1,14 +1,18 @@
 package com.henasys.kotlinexam.presentation.user
 
+import android.text.Editable
+import android.util.Patterns
+import android.view.View
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.data.repository.UserRepository
 import com.henasys.kotlinexam.presentation.Event
-import com.henasys.kotlinexam.presentation.common.mapper.toResult
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
-import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -25,33 +29,17 @@ class UserViewModel @Inject constructor(
     val navigateToLoginDone: LiveData<Event<Any>>
         get() = mutableNavigateToLoginDone
 
-    val isLoading = ObservableField<Boolean>()
-    val emailError = ObservableField<String>()
-    val passwordError = ObservableField<String>()
+    val isLoading = ObservableBoolean()
+    val buttonEnabled = ObservableBoolean(false)
+    val email = ObservableField<String>()
+    val password = ObservableField<String>()
 
-    init {
-//        observeUsers()
-    }
+    val emailError = ObservableInt()
+    val passwordError = ObservableInt()
 
-    private fun observeUsers() {
-        repository.users
-            .flatMap { Flowable.just(it.first()) }
-            .subscribeOn(schedulerProvider.io())
-            .toResult(schedulerProvider)
-            .subscribeBy(
-                onComplete = {
-                    Timber.i("onComplete")
-                },
-                onNext = {
-                    Timber.i("onNext: $it")
-//                    mutableUser.value = it
-                },
-                onError = {
-                    Timber.i("onError: $it")
-//                    mutableUser.value = Result.failure(it.message ?: "unknown", it)
-                }
-            )
-            .addTo(compositeDisposable)
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 
     fun login(email: String, password: String) {
@@ -71,12 +59,54 @@ class UserViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+    fun onClick(v: View) {
+        Timber.i("onClick")
+        Timber.i("email: ${email.get()}, password: ${password.get()}")
+
+        if (isValid()) {
+            login(email.get().toString(), password.get().toString())
+        }
     }
 
-    fun start() {
+    fun afterTextChangedForEmail(s: Editable?) {
+        Timber.i("afterTextChangedForEmail: ${s.toString()}")
+        if (!isEmailValid(s.toString())) {
+            emailError.set(R.string.invalid_email)
+        }
+
+        buttonEnabled.set(isValid())
     }
 
+    fun afterTextChangedForPassword(s: Editable?) {
+        Timber.i("afterTextChangedForPassword: ${s.toString()}")
+        if (!isPasswordValid(s.toString())) {
+            passwordError.set(R.string.invalid_password)
+        }
+
+        buttonEnabled.set(isValid())
+    }
+
+    private fun isValid(): Boolean {
+        val emailValue = email.get().toString()
+        val passwordValue = password.get().toString()
+
+        return isEmailValid(emailValue) && isPasswordValid(passwordValue)
+    }
+
+
+    // A placeholder email validation check
+    private fun isEmailValid(email: String?): Boolean {
+        if (email == null) {
+            return false
+        }
+        return if (email.contains("@")) {
+            Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        } else false
+
+    }
+
+    // A placeholder password validation check
+    private fun isPasswordValid(password: String?): Boolean {
+        return password != null && password.trim { it <= ' ' }.length >= 4
+    }
 }
