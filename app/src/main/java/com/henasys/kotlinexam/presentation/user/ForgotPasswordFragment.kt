@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.henasys.kotlinexam.databinding.FragmentRegistrationBinding
+import com.henasys.kotlinexam.databinding.FragmentForgotPasswordBinding
 import com.henasys.kotlinexam.presentation.NavigationController
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class RegistrationFragment : DaggerFragment() {
-    private lateinit var binding: FragmentRegistrationBinding
+class ForgotPasswordFragment : DaggerFragment() {
+    private lateinit var binding: FragmentForgotPasswordBinding
     private val viewModel: UserViewModel by lazy {
         ViewModelProviders.of(activity as FragmentActivity, viewModelFactory).get(UserViewModel::class.java)
     }
@@ -28,7 +28,7 @@ class RegistrationFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRegistrationBinding.inflate(inflater, container!!, false)
+        binding = FragmentForgotPasswordBinding.inflate(inflater, container!!, false)
         binding.viewModel = viewModel
         return binding.root
     }
@@ -44,6 +44,6 @@ class RegistrationFragment : DaggerFragment() {
     }
 
     companion object {
-        fun newInstance(): RegistrationFragment = RegistrationFragment()
+        fun newInstance(): ForgotPasswordFragment = ForgotPasswordFragment()
     }
 }
