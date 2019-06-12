@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class LoginFragment : DaggerFragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: UserViewModel by lazy {
-        ViewModelProviders.of(activity as FragmentActivity, viewModelFactory).get(UserViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(UserViewModel::class.java)
     }
 
     @Inject
@@ -59,7 +58,7 @@ class LoginFragment : DaggerFragment() {
                 else null
         })
 
-        viewModel.PasswordError.observe(this, Observer {
+        viewModel.passwordError.observe(this, Observer {
             binding.passwordWrapper.error =
                 if (it) getString(R.string.invalid_password)
                 else null

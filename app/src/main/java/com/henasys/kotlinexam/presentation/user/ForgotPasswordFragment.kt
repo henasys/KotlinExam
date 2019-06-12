@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ForgotPasswordFragment : DaggerFragment() {
     private lateinit var binding: FragmentForgotPasswordBinding
     private val viewModel: UserViewModel by lazy {
-        ViewModelProviders.of(activity as FragmentActivity, viewModelFactory).get(UserViewModel::class.java)
+        ViewModelProviders.of(this, viewModelFactory).get(UserViewModel::class.java)
     }
 
     @Inject

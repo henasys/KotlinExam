@@ -32,21 +32,20 @@ class UserViewModel @Inject constructor(
         get() = mutableEmailError
 
     private val mutablePasswordError = MutableLiveData<Boolean>()
-    val PasswordError: LiveData<Boolean>
+    val passwordError: LiveData<Boolean>
         get() = mutablePasswordError
-    
-    
+
     val isLoading = ObservableBoolean()
     val buttonEnabled = ObservableBoolean(false)
     val email = ObservableField<String>()
     val password = ObservableField<String>()
-    
 
     init {
+        Timber.i("init")
         mutableEmailError.value = false
         mutablePasswordError.value = false
 
-        testLogin()
+//        testLogin()
     }
 
     override fun onCleared() {
