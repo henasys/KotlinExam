@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.henasys.kotlinexam.databinding.FragmentLoginBinding
 import com.henasys.kotlinexam.presentation.NavigationController
-import com.henasys.kotlinexam.util.ProgressTimeLatch
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
