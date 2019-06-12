@@ -6,6 +6,7 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">로그인</string>
     <string name="action_sign_in_short">Sign in</string>
+
     <string name="welcome">"로그인 성공: "</string>
     <string name="invalid_email">Email 형식이 맞지 않습니다.</string>
     <string name="invalid_password">패스워드는 4 글자 이상이어야 합니다.</string>
@@ -15,13 +16,22 @@
     <string name="logout_dialog_title">로그아웃 확인</string>
     <string name="logout_dialog_message">로그아웃하시려면 확인버튼을 눌러주세요.</string>
 
-    <string name="login_forgot_password"><u>비밀번호를 잊으셨나요?</u></string>
-    <string name="login_new_member"><u>회원 가입</u></string>
+    <string name="forgot_password_link">
+        <u>비밀번호를 잊으셨나요?</u>
+    </string>
+    <string name="registration_link">
+        <u>회원 가입</u>
+    </string>
+    <string name="login_link">
+        <u>로그인</u>
+    </string>
 
     <string name="activity_title_forgot_password">비밀번호 초기화</string>
     <string name="action_reset_password">초기화</string>
 
     <string name="activity_title_registration">회원 가입</string>
     <string name="action_register">가입</string>
+    <string name="action_sign_up">회원 가입</string>
+    <string name="action_sign_up_short">Sign up</string>
 
 </resources>

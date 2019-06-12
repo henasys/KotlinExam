@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.presentation.common.fragment.Findable
 import com.henasys.kotlinexam.presentation.user.LoginFragment
+import com.henasys.kotlinexam.presentation.user.RegistrationFragment
 import com.henasys.kotlinexam.presentation.user.UserActivity
 import javax.inject.Inject
 
@@ -35,5 +36,9 @@ class NavigationController @Inject constructor(private val activity: AppCompatAc
 
     fun navigateToLogin() {
         replaceFragment(LoginFragment.newInstance())
+    }
+
+    fun navigateToRegistration() {
+        replaceFragment(RegistrationFragment.newInstance())
     }
 }

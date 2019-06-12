@@ -85,10 +85,10 @@
             app:layout_constraintTop_toBottomOf="@+id/passwordWrapper" />
 
         <TextView
-            android:id="@+id/forgot_password"
+            android:id="@+id/forgotPasswordLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_forgot_password"
+            android:text="@string/forgot_password_link"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:clickable="true"
@@ -98,20 +98,20 @@
             app:layout_constraintTop_toBottomOf="@+id/login" />
 
         <TextView
-            android:id="@+id/new_member"
+            android:id="@+id/registrationLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/login_new_member"
+            android:text="@string/registration_link"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:clickable="true"
             android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/forgot_password"
+            app:layout_constraintTop_toBottomOf="@+id/forgotPasswordLink"
             app:layout_constraintVertical_bias="0.8" />
 
         <ProgressBar
