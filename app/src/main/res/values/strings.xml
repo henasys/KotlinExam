@@ -8,7 +8,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"로그인 성공: "</string>
     <string name="invalid_email">Email 형식이 맞지 않습니다.</string>
-    <string name="invalid_password">패스워드는 8 글자 이상이어야 합니다.</string>
+    <string name="invalid_password">패스워드는 4 글자 이상이어야 합니다.</string>
     <string name="login_failed">로그인이 실패했습니다. 로그인 정보를 다시 확인해주십시오.</string>
 
     <string name="logout_failed">로그아웃이 실패했습니다. 잠시후 다시 시도해주십시오.</string>

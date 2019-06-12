@@ -5,11 +5,9 @@ import android.util.Patterns
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.data.repository.UserRepository
 import com.henasys.kotlinexam.presentation.Event
 import com.henasys.kotlinexam.util.rx.SchedulerProvider
@@ -29,17 +27,36 @@ class UserViewModel @Inject constructor(
     val navigateToLoginDone: LiveData<Event<Any>>
         get() = mutableNavigateToLoginDone
 
+    private val mutableEmailError = MutableLiveData<Boolean>()
+    val emailError: LiveData<Boolean>
+        get() = mutableEmailError
+
+    private val mutablePasswordError = MutableLiveData<Boolean>()
+    val PasswordError: LiveData<Boolean>
+        get() = mutablePasswordError
+    
+    
     val isLoading = ObservableBoolean()
     val buttonEnabled = ObservableBoolean(false)
     val email = ObservableField<String>()
     val password = ObservableField<String>()
+    
 
-    val emailError = ObservableInt()
-    val passwordError = ObservableInt()
+    init {
+        mutableEmailError.value = false
+        mutablePasswordError.value = false
+
+        testLogin()
+    }
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()
+    }
+
+    private fun testLogin() {
+        email.set("eve.holt@reqres.in")
+        password.set("pistol")
     }
 
     fun login(email: String, password: String) {
@@ -70,19 +87,13 @@ class UserViewModel @Inject constructor(
 
     fun afterTextChangedForEmail(s: Editable?) {
         Timber.i("afterTextChangedForEmail: ${s.toString()}")
-        if (!isEmailValid(s.toString())) {
-            emailError.set(R.string.invalid_email)
-        }
-
+        mutableEmailError.value = !isEmailValid(s.toString())
         buttonEnabled.set(isValid())
     }
 
     fun afterTextChangedForPassword(s: Editable?) {
         Timber.i("afterTextChangedForPassword: ${s.toString()}")
-        if (!isPasswordValid(s.toString())) {
-            passwordError.set(R.string.invalid_password)
-        }
-
+        mutablePasswordError.value = !isPasswordValid(s.toString())
         buttonEnabled.set(isValid())
     }
 
@@ -92,7 +103,6 @@ class UserViewModel @Inject constructor(
 
         return isEmailValid(emailValue) && isPasswordValid(passwordValue)
     }
-
 
     // A placeholder email validation check
     private fun isEmailValid(email: String?): Boolean {

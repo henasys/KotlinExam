@@ -1,20 +1,17 @@
 package com.henasys.kotlinexam.presentation.user
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.henasys.kotlinexam.R
 import com.henasys.kotlinexam.databinding.FragmentLoginBinding
 import com.henasys.kotlinexam.presentation.NavigationController
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
 class LoginFragment : DaggerFragment() {
@@ -38,45 +35,21 @@ class LoginFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        setupLoginButton()
-//
-//        testLogin()
+        observeViewModel()
     }
 
-    private fun testLogin() {
-        val email = "eve.holt@reqres.in"
-        val password = "pistol"
-
-        binding.email.setText(email)
-        binding.password.setText(password)
-    }
-
-    private fun setupEmailField() {
-        binding.email.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+    private fun observeViewModel() {
+        viewModel.emailError.observe(this, Observer {
+            binding.emailWrapper.error =
+                if (it) getString(R.string.invalid_email)
+                else null
         })
 
-        binding.password.doAfterTextChanged {
-
-        }
-    }
-
-    private fun setupLoginButton() {
-        binding.login.apply {
-            setOnClickListener {
-                viewModel.login(binding.email.text.toString(), binding.password.text.toString())
-            }
-        }
+        viewModel.PasswordError.observe(this, Observer {
+            binding.passwordWrapper.error =
+                if (it) getString(R.string.invalid_password)
+                else null
+        })
     }
 
     companion object {
