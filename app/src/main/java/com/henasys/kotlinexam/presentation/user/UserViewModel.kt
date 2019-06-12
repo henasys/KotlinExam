@@ -26,6 +26,8 @@ class UserViewModel @Inject constructor(
         get() = mutableNavigateToLoginDone
 
     val isLoading = ObservableField<Boolean>()
+    val emailError = ObservableField<String>()
+    val passwordError = ObservableField<String>()
 
     init {
 //        observeUsers()

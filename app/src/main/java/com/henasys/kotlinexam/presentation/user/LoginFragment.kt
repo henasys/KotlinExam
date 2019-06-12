@@ -34,9 +34,7 @@ class LoginFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeUser()
         setupLoginButton()
-        setupProgress()
 
         testLogin()
     }
@@ -47,15 +45,6 @@ class LoginFragment : DaggerFragment() {
 
         binding.email.setText(email)
         binding.password.setText(password)
-    }
-
-    private fun observeUser() {
-    }
-
-    private fun setupProgress() {
-        val progressTimeLatch = ProgressTimeLatch {
-            binding.progress.visibility = if (it) View.VISIBLE else View.GONE
-        }
     }
 
     private fun setupLoginButton() {
