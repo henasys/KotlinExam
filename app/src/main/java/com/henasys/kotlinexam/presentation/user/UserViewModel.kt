@@ -81,11 +81,21 @@ class UserViewModel @Inject constructor(
             .addTo(compositeDisposable)
     }
 
-    fun onClick(v: View) {
-        Timber.i("onClick")
+    fun onClickForLogin(v: View) {
+        Timber.i("onClickForLogin")
         Timber.i("email: ${email.get()}, password: ${password.get()}")
 
         login()
+    }
+
+    fun onClickForRegistration(v: View) {
+        Timber.i("onClickForRegistration")
+        Timber.i("email: ${email.get()}, password: ${password.get()}")
+    }
+
+    fun onClickForResetPassword(v: View) {
+        Timber.i("onClickForResetPassword")
+        Timber.i("email: ${email.get()}")
     }
 
     fun afterTextChangedForEmail(s: Editable?) {
