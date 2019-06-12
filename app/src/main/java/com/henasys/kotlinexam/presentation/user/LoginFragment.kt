@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +37,7 @@ class LoginFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
+        setupOnEditorActionListener()
     }
 
     private fun observeViewModel() {
@@ -50,6 +52,18 @@ class LoginFragment : DaggerFragment() {
                 if (it) getString(R.string.invalid_password)
                 else null
         })
+    }
+
+    private fun setupOnEditorActionListener() {
+        binding.password.setOnEditorActionListener { v, actionId, event ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    viewModel.login()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     companion object {

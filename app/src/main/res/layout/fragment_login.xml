@@ -23,6 +23,9 @@
                 android:id="@+id/emailWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,9 +35,6 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="24dp"
                     android:text="@={viewModel.email}"
                     android:afterTextChanged="@{viewModel::afterTextChangedForEmail}"
                     android:hint="@string/prompt_email"
@@ -42,11 +42,14 @@
                     android:selectAllOnFocus="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwordWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailWrapper" >
@@ -55,9 +58,6 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
                     android:text="@={viewModel.password}"
                     android:afterTextChanged="@{viewModel::afterTextChangedForPassword}"
                     android:hint="@string/prompt_password"

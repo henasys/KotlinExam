@@ -59,6 +59,12 @@ class UserViewModel @Inject constructor(
         password.set("pistol")
     }
 
+    fun login() {
+        if (isValid()) {
+            login(email.get().toString(), password.get().toString())
+        }
+    }
+
     fun login(email: String, password: String) {
         repository.login(email, password)
             .observeOn(schedulerProvider.ui())
@@ -80,9 +86,7 @@ class UserViewModel @Inject constructor(
         Timber.i("onClick")
         Timber.i("email: ${email.get()}, password: ${password.get()}")
 
-        if (isValid()) {
-            login(email.get().toString(), password.get().toString())
-        }
+        login()
     }
 
     fun afterTextChangedForEmail(s: Editable?) {
