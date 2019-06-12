@@ -5,8 +5,8 @@
 
     <data>
         <import type="android.view.View" />
-        <variable name="viewModel" type="com.henasys.kotlinexam.presentation.user.UserViewModel"/>
 
+        <variable name="viewModel" type="com.henasys.kotlinexam.presentation.user.UserViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,7 +105,7 @@
             android:layout_marginTop="64dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp"
-            android:visibility="gone"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

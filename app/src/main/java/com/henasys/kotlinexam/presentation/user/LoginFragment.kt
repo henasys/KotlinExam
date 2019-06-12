@@ -27,6 +27,7 @@ class LoginFragment : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentLoginBinding.inflate(inflater, container!!, false)
+        binding.viewModel = viewModel
         return binding.root
     }
 

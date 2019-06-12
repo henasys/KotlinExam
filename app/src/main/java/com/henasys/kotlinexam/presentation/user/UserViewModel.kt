@@ -1,5 +1,6 @@
 package com.henasys.kotlinexam.presentation.user
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,8 @@ class UserViewModel @Inject constructor(
     private val mutableNavigateToLoginDone = MutableLiveData<Event<Any>>()
     val navigateToLoginDone: LiveData<Event<Any>>
         get() = mutableNavigateToLoginDone
+
+    val isLoading = ObservableField<Boolean>()
 
     init {
 //        observeUsers()
@@ -52,6 +55,8 @@ class UserViewModel @Inject constructor(
     fun login(email: String, password: String) {
         repository.login(email, password)
             .observeOn(schedulerProvider.ui())
+            .doOnSubscribe { isLoading.set(true) }
+            .doFinally { isLoading.set(false) }
             .subscribeBy(
                 onSuccess = {
                     Timber.i("onSuccess: $it")
