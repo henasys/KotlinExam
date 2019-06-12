@@ -37,10 +37,17 @@ class RegistrationFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
+        setupNavigationLink()
     }
 
     private fun observeViewModel() {
 
+    }
+
+    private fun setupNavigationLink() {
+        binding.loginLink.setOnClickListener {
+            navigationController.navigateToLogin()
+        }
     }
 
     companion object {

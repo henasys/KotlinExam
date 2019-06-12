@@ -3,9 +3,7 @@ package com.henasys.kotlinexam.di.activitymodule
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.henasys.kotlinexam.di.ViewModelKey
-import com.henasys.kotlinexam.presentation.user.LoginFragment
-import com.henasys.kotlinexam.presentation.user.UserActivity
-import com.henasys.kotlinexam.presentation.user.UserViewModel
+import com.henasys.kotlinexam.presentation.user.*
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -18,6 +16,12 @@ interface UserActivityModule {
 
     @ContributesAndroidInjector
     fun contributeLoginFragment(): LoginFragment
+
+    @ContributesAndroidInjector
+    fun contributeForgotPasswordFragment(): ForgotPasswordFragment
+
+    @ContributesAndroidInjector
+    fun contributeRegistrationFragment(): RegistrationFragment
 
     @Binds @IntoMap
     @ViewModelKey(UserViewModel::class)

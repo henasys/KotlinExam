@@ -38,6 +38,7 @@ class LoginFragment : DaggerFragment() {
 
         observeViewModel()
         setupOnEditorActionListener()
+        setupNavigationLink()
     }
 
     private fun observeViewModel() {
@@ -63,6 +64,16 @@ class LoginFragment : DaggerFragment() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun setupNavigationLink() {
+        binding.forgotPasswordLink.setOnClickListener {
+            navigationController.navigateToForgotPassword()
+        }
+
+        binding.registrationLink.setOnClickListener {
+            navigationController.navigateToRegistration()
         }
     }
 
