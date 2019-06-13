@@ -1,15 +1,16 @@
 package com.henasys.kotlinexam.data.api
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.henasys.kotlinexam.di.DaggerTestAppComponent
+import com.henasys.kotlinexam.di.DaggerTestAppComponentNotMock
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-class UserApiTest {
+class NotMockUserApiTest {
 
     @Rule
     @JvmField
@@ -20,7 +21,11 @@ class UserApiTest {
 
     @Before
     fun setUp() {
-        DaggerTestAppComponent.builder().build().inject(this)
+        DaggerTestAppComponentNotMock.builder().build().inject(this)
+    }
+
+    @After
+    fun tearDown() {
     }
 
     @Test
